@@ -1,83 +1,52 @@
 # HNG15 Week 5 · Individual Task 1
 
-## Project summary
-
-This independent React reproduction follows the Ziki screenshots supplied for the task: the dark public landing page and a signed-in Ziki dashboard. It adds a clearly labeled **Owner’s Decision Desk** proposal inside the dashboard. The proposal groups human approval requests, at-risk work, and overall agent progress. All workspace content beyond what is visible in the screenshots is illustrative and local to this demonstration.
+> “This is not a visual task. It is an interaction design task.”
+> “Reproduce Ziki faithfully. Keep the product's look. Change the flow.”
 
 ## WHO
 
-A project owner supervising multiple AI agents across projects. The dashboard screenshot shows the account name Mercy Gatwiri and a workspace selector labeled “Zedu”; this concept uses those labels to reflect the supplied screenshot. The screenshot does not establish whether the displayed profile is the intended target user, so the owner persona is based on the task brief.
+The user is the workspace owner overseeing AI agents. The supplied signed-in screenshot identifies Mercy Gatwiri and the Zedu workspace. The owner perspective comes from the assignment brief; the screenshot alone does not establish the user's role or agent permissions.
 
 ## INTENT
 
-“I want to know whether my agents are making progress, and I only want to intervene when my judgment or approval is needed.”
+“I want to decide whether an agent may merge this completed change.” The owner needs to spot the handoff and make that one decision without searching through agent activity.
 
 ## EMOTION
 
-The owner wants confidence and control without unnecessary monitoring or notification overload. A concise view of exceptions should help them stay informed without opening every issue or pull request.
+At this moment, the owner may feel interrupted or unsure whether the agent is asking for a routine check or a consequential decision. This is a design assumption, not a user-research finding.
 
-## KEY DECISION
+## DECISION
 
-Is an agent’s proposed action within its authority and safe to approve, or should the agent wait, revise its plan, or continue within its existing permissions?
+Should the owner approve the illustrative merge request for issue #229 or ask the agent for changes?
 
-## EXISTING EXPERIENCE
+## OLD UI
 
-The supplied screenshots show two surfaces:
+The reference dashboard shows a welcome heading, a New issue action, four account and issue overview cards, and an “Issues assigned to me” table. The visible table includes issue, priority, status, stage, votes, and reported date. The reference does not show an agent approval request or explain how an owner discovers one. It does not establish that the live product lacks notifications or other approval flows.
 
-1. **Ziki public landing page:** A navy page with a rounded top navigation, Ziki wordmark, links for How it works, AI agents, Developers, Points, API Spec, and Get started. The hero centers the message “Move every issue forward with your agents,” a short description of human + AI workflows, and a Get started free action. A fine vertical-line grid decorates the background.
-2. **Signed-in Ziki dashboard, “Zedu” workspace:** A dark header shows the Ziki mark, workspace selector, Product/Marketing/Security navigation, Agents control, Mercy Gatwiri account menu, points, and notifications. The body has a welcome heading, New issue action, four overview cards, and an “Issues assigned to me” table with votes, issue, type, priority, status, stage, and reported date.
+## CHANGE
 
-The second screenshot is identified as a Ziki dashboard because its header carries the Ziki mark and product navigation. “Zedu” is the selected workspace label in that screenshot, not the product name. The screenshots were supplied by the user and are the visual evidence used here. Direct access to `ziki.dev` was unavailable in the browser tool, so this document makes no claims about live pages beyond those screenshots or the product summary in the original brief. No private application screens or source code were inspected.
+Keep the reference dashboard structure and add one compact notice above the existing issue table when Product is selected: Nova is waiting for a decision about merging issue #229. “Review” opens a short inline explanation and lets the owner approve the merge or request changes. A small status message confirms the choice in this local demonstration; it does not perform a real merge.
 
-## PROBLEM
+The notice makes the human handoff visible where the related issue already appears. The inline detail keeps the reason next to the action and avoids sending the owner to a new dashboard, issue list, or separate workflow. The sample request and its connection to #229 are illustrative assumptions for this concept, not facts established by the reference screenshots.
 
-**Verified from the screenshots:** The dashboard provides account/issue summary cards and an assigned-issues table. The screenshots do not visibly show an owner-level summary of agent work, a queue of approval requests, an agent recommendation with evidence, or an explanation of what approval/rejection will cause.
+## AI / HUMAN
 
-**Hypothesis to evaluate:** An owner overseeing several agents may need to visit multiple issues or project areas to understand where work is progressing and where an approval boundary has been reached. The screenshots alone cannot establish how the live product handles agent requests, notifications, or multi-agent progress, so this is a design hypothesis, not a verified limitation of Ziki.
+The agent may handle routine work within its granted permissions, including implementing and checking the fix. It pauses when an action exceeds its authority or workspace policy reserves that consequential action for a person. Here, Nova may prepare the fix, but the human decides whether it can be merged.
 
-## PROPOSED CHANGE
+## RETAINED AND REMOVED
 
-Add an Owner’s Decision Desk below the familiar dashboard metrics. It surfaces only illustrative requests marked as requiring owner input, lets the owner select a request, and explains the responsible agent, project/issue, reason for pausing, recommendation, evidence, risk, and outcomes of approval or rejection. Beside the request queue, an at-risk panel explains the sample failure, prior attempts, next step, and whether the owner needs to act. A compact progress summary tracks active, completed, blocked, and awaiting-decision work.
+Retained from the described reference: the light appearance, Ziki wordmark, workspace selector, project navigation, agent and account controls, points and notifications, welcome area, four overview cards, and assigned-issues table. Both `/` and `/dashboard` render the dashboard so the submission appears at the deployed root URL.
 
-The existing Ziki-like header, account overview cards, and assigned-issues table remain visible to anchor the concept in the supplied dashboard reference. The public landing page is also reproduced at the root route, with links to the local dashboard concept at `/dashboard`.
+Removed from the previous concept: Owner’s Decision Desk; multi-request queue and detailed evidence/risk/recommendation cards; at-risk and factory-progress panels; agent work list; sample progress totals; filter and issue-creation interactions; issue quick-view; and explanatory panels below the landing-page hero. These additions were not needed for the single decision and made the dashboard busier than the reference.
 
-## HUMAN–AGENT BOUNDARY
+## OBSERVATIONS AND ASSUMPTIONS
 
-Agents may perform routine work within permissions already granted, collect evidence, explain findings, and recommend actions. They should pause when an action exceeds their permissions or when workspace policy explicitly reserves it for human approval. Humans retain those consequential decisions and other high-risk actions reserved by policy. Routine work does not require approval by default.
+**Observed in the supplied reference, as described for this reproduction:** the signed-in Zedu dashboard has the structure listed above and uses a light appearance. The supplied screenshots are the visual source of truth. No screenshot files were present in the project directory when this revision was made, so detailed pixel measurements could not be independently checked here.
 
-The Approve and Reject buttons only update local React state. An approved example leaves the pending queue and increments the illustrative completed total. A rejected example leaves the pending queue and increments the illustrative blocked total. A notice explicitly says that no external action was taken. There are no API calls, repository integrations, production approvals, or agent connections.
+**Assumptions in this concept:** a workspace owner supervises agents; Nova prepared the sample fix; merging requires human approval; and a concise in-context prompt would make that handoff easier to recognize. These assumptions support the prototype interaction and are not claims about Ziki's production behavior.
 
-## BEFORE AND AFTER
+## IMPLEMENTATION AND CHECKS
 
-**Before, as shown:** A signed-in dashboard gives an overview of the owner’s points and issue counts, then shows assigned issues in a table. The public landing page describes Ziki’s human + AI workflow at a high level.
+The existing React/Vite stack and Vercel rewrite are retained. The root route displays the dashboard on first load; `/dashboard` also resolves to it. Approval controls update local demonstration state only. The interface uses semantic buttons, headings, navigation labels, table headers, expanded-state attributes, and a status announcement. At narrow widths, the project navigation becomes a toggleable menu, the table becomes stacked rows, and the decision section wraps into a vertical layout. Reduced-motion preferences are respected.
 
-**After, proposed:** Keep the screenshot’s dashboard structure and add the decision queue, contextual decision detail, at-risk explanation, and agent progress summary. The owner can inspect evidence and consequences before using a demo-only control. The original issue table stays below the proposal as the familiar reference context.
-
-## DESIGN DECISIONS
-
-- Retain the screenshot’s navy background, blue actions and labels, rounded overview cards, compact header navigation, and issue table structure.
-- Put the decision queue and detail beside each other on wider screens so the owner can compare requests without losing context; stack them on smaller screens.
-- Separate requests that need approval from routine active work and from blocked work. A blocked item states whether intervention is needed.
-- Explain risks and outcomes in words as well as with color-coded labels, so color is not the only status cue.
-- Label the proposed interaction and illustrative data in place, and repeat the no-production-action boundary at the decision controls.
-- Keep the screenshot’s points and issue summary patterns as visual context. Their sample values do not represent live Ziki data.
-
-## LIMITATIONS
-
-- This is an independent reproduction and concept, not Ziki source code or a Ziki deployment.
-- The supplied reference images are the only visual source. Live `ziki.dev` could not be opened with the available browser tool.
-- Header, dashboard cards, sample issue row, and table structure are recreated from visible screenshots. The public landing page hero and header are also recreated from the supplied screenshot; lower landing-page content is a short concept explanation, not a claim about an unobserved live section.
-- Profile labels and visible dashboard counts follow the supplied signed-in screenshot. Agent names, decision requests, evidence, risks, activity, progress counts, dates beyond the screenshot’s visible example, and action outcomes are sample data.
-- Navigation, account/agent/notification menus, issue creation, voting, issue quick view, and decision outcomes are local demonstrations. They do not imply equivalent live Ziki behavior.
-- There is no backend, environment variable, or network data fetch. Vercel rewrites `/dashboard` to the single-page app entry so direct navigation works on static hosting. Because there are no asynchronous data requests, the interface does not need a network loading or network error screen. It has empty states for outstanding decisions and filtered issue views.
-
-## EVALUATION PLAN
-
-Use representative multi-agent delivery scenarios with project owners. Compare the current owner workflow with this concept. Measure how quickly participants identify the items that need them, how accurately they explain the recommendation and risk, time to reach a decision, issues/pages opened along the way, and missed or unnecessary interventions. Ask participants what they believe an approval will do before clicking, to check whether the consequences are clear. Follow up with interviews about confidence, monitoring effort, and whether the progress summary hides important detail. Test keyboard-only navigation and narrow-screen use. Do not treat the illustrative data as user research or analytics.
-
-## EVIDENCE
-
-- **Visual reference:** The two user-supplied screenshots: Ziki public landing page and signed-in dashboard in the “Zedu” workspace.
-- **Implementation evidence:** `npm.cmd run build` passed. The Vite development server returned HTTP 200 for `/`, `/dashboard`, and the app entry. The built preview returned HTTP 200 for the HTML, JavaScript, and CSS assets. The responsive CSS breakpoint is included in the served stylesheet. No lint script is defined.
-- **Interaction evidence to capture for submission:** a selected pending decision with its detail, an approved and a rejected demo state with changed counts, the no-pending empty state, the at-risk and progress panels, filtered issue empty state, and mobile-width screenshots.
-- **Testing limits:** No browser automation tool was available in this session. Approval/rejection and empty-state logic were reviewed in source but not clicked in a browser; mobile overflow and screen-reader behavior were not browser-tested. A clean dependency install could not be completed because package registry access stalled. Build results and unexecuted checks must be reported separately; source review is not a substitute for browser or assistive-technology testing.
+Run `npm.cmd run build` to verify the production bundle. Manual browser and assistive-technology checks are still needed to confirm actual rendered behavior across browsers and devices.
